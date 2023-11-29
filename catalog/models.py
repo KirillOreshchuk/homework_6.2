@@ -4,6 +4,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class Product(models.Model):
+    objects = None
     name = models.CharField(max_length=50, verbose_name='Продукт')
     description = models.TextField(verbose_name='Описание')
     preview = models.ImageField(upload_to='products/', verbose_name='изображение', **NULLABLE)
@@ -24,6 +25,7 @@ class Product(models.Model):
 
 
 class Category(models.Model):
+    objects = None
     name = models.CharField(max_length=50, verbose_name='Категория')
     description = models.TextField(verbose_name='Описание категории', **NULLABLE)
 

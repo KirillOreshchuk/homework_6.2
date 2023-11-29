@@ -1,4 +1,17 @@
 from django.shortcuts import render
+from catalog.models import Category, Product
+
+
+def catalog(request):
+    """
+    Контроллер, который отвечает за отображение каталога продуктов
+    """
+    category_list = Category.objects.all()
+    context = {
+        'object_list': category_list
+
+    }
+    return render(request, 'catalog/catalog.html', context)
 
 
 def display_home_page(request):
@@ -21,3 +34,16 @@ def display_contact_info(request):
 
     return render(request, 'catalog/contact_info.html')
 
+
+def product(request, category_id):
+    """
+    Контроллер, который отвечает за отображение продуков
+    """
+    category = Category.objects.get(id=category_id)
+    product_list = Product.objects.filter(category_id=category)
+
+    context = {
+        'object_list': product_list,
+        'category': category
+    }
+    return render(request, 'catalog/product.html', context)
