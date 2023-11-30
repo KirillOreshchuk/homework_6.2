@@ -11,4 +11,5 @@ urlpatterns = [
     path('catalog/', views.catalog, name='catalog'),
     path('contacts/', display_contact_info, name='display_contact_info'),
     path('product/<int:category_id>', views.product, name='product'),
+    path('one_product/<int:pk>', views.one_product, name='one_product'),
 ]

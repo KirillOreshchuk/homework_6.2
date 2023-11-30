@@ -47,3 +47,13 @@ def product(request, category_id):
         'category': category
     }
     return render(request, 'catalog/product.html', context)
+
+
+def one_product(request, pk):
+    product_item = Product.objects.get(pk=pk)
+
+    context = {
+        'product': product_item,
+    }
+
+    return render(request, 'catalog/one_product.html', context)
