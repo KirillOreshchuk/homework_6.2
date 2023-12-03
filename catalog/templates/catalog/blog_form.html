@@ -1,0 +1,21 @@
+{% extends 'catalog/base.html' %}
+{% load mediapath %}
+{% block name %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Создать статью</h1>
+</div>
+{% endblock %}
+
+{% block nav %}
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:display_home_page' %}">Главная страница</a>
+
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:blog_list' %}">Посты</a>
+{% endblock %}
+
+{% block store %}
+<form method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Создать</button>
+</form>
+{% endblock %}

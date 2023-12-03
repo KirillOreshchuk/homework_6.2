@@ -1,17 +1,14 @@
 from django.shortcuts import render
-from catalog.models import Category, Product
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy, reverse
+from pytils.translit import slugify
+
+from catalog.models import Category, Product, Blog
 
 
-def catalog(request):
-    """
-    Контроллер, который отвечает за отображение каталога продуктов
-    """
-    category_list = Category.objects.all()
-    context = {
-        'object_list': category_list
-
-    }
-    return render(request, 'catalog/catalog.html', context)
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'catalog/catalog.html'
 
 
 def display_home_page(request):
@@ -49,11 +46,77 @@ def product(request, category_id):
     return render(request, 'catalog/product.html', context)
 
 
-def one_product(request, pk):
-    product_item = Product.objects.get(pk=pk)
+class ProductDetailView(DetailView):
+    """
+    Контроллер, который отвечает за отображение одного продукта
+    """
+    model = Product
+    template_name = 'catalog/one_product.html'
 
-    context = {
-        'product': product_item,
-    }
 
-    return render(request, 'catalog/one_product.html', context)
+class BlogCreateView(CreateView):
+    """
+    Контроллер, который отвечает за создание поста
+    """
+    model = Blog
+    fields = ('title', 'body', 'image', 'is_published')
+    success_url = reverse_lazy('catalog:blog_list')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.slug = slugify(new_mat.title)
+            new_mat.save()
+        return super().form_valid(form)
+
+
+class BlogListView(ListView):
+    """
+    Контроллер, который отвечает за отображение всех постов (опубликованных)
+    """
+    model = Blog
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(is_published=True)
+        return queryset
+
+
+class BlogUpdateView(UpdateView):
+    """
+    Контроллер, который отвечает за редактирование поста
+    """
+    model = Blog
+    fields = ('title', 'body', 'image', 'is_published')
+    template_name = 'catalog/blog_update.html'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.slug = slugify(new_mat.title)
+            new_mat.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('catalog:blog_detail', args=[self.kwargs.get('pk')])
+
+
+class BlogDetailView(DetailView):
+    """
+    Контроллер, который отвечает за отображение одного поста
+    """
+    model = Blog
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.view_count += 1
+        self.object.save()
+        return self.object
+
+
+class BlogDeleteView(DeleteView):
+    """
+    Контроллер, который отвечает за удаление поста
+    """
+    model = Blog
+    success_url = reverse_lazy('catalog:blog_list')
