@@ -3,12 +3,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 
-from catalog.models import Category, Product, Blog
-
-
-class CategoryListView(ListView):
-    model = Category
-    template_name = 'catalog/catalog.html'
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Product, Blog, Version
 
 
 def display_home_page(request):
@@ -32,18 +28,45 @@ def display_contact_info(request):
     return render(request, 'catalog/contact_info.html')
 
 
-def product(request, category_id):
+class ProductListView(ListView):
     """
-    Контроллер, который отвечает за отображение продуков
+    Контроллер, который отвечает за отображение списка всех продуктов
     """
-    category = Category.objects.get(id=category_id)
-    product_list = Product.objects.filter(category_id=category)
+    model = Product
 
-    context = {
-        'object_list': product_list,
-        'category': category
-    }
-    return render(request, 'catalog/product.html', context)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        active_versions = Version.objects.filter(is_active=True).select_related('product_name')
+        active_products = {version.product_name_id: version for version in active_versions}
+        for product in queryset:
+            product.active_version = active_products.get(product.id)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        context['version'] = queryset
+        return context
+
+
+class ProductCreateView(CreateView):
+    """
+    Контроллер, который отвечает за создание продукта
+    """
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list')
+
+
+class ProductUpdateView(UpdateView):
+    """
+    Контроллер, который отвечает за изменение продукта
+    """
+    model = Product
+    form_class = ProductForm
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
 
 class ProductDetailView(DetailView):
@@ -51,7 +74,16 @@ class ProductDetailView(DetailView):
     Контроллер, который отвечает за отображение одного продукта
     """
     model = Product
-    template_name = 'catalog/one_product.html'
+    form_class = ProductForm
+
+
+class ProductDeleteView(DeleteView):
+    """
+    Контроллер, который отвечает за удаление продукта
+    """
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:catalog')
 
 
 class BlogCreateView(CreateView):
@@ -120,3 +152,14 @@ class BlogDeleteView(DeleteView):
     """
     model = Blog
     success_url = reverse_lazy('catalog:blog_list')
+
+
+class VersionCreateView(CreateView):
+    """
+    Контроллер, который отвечает за создание версии продукта
+    """
+    model = Version
+    form_class = VersionForm
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])

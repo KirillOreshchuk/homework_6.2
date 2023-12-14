@@ -1,0 +1,38 @@
+{% extends 'catalog/base.html' %}
+
+{% load mediapath %}
+
+{% block nav %}
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:display_home_page' %}">Главная страница</a>
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Продукты</a>
+
+{% endblock %}
+
+{% block store %}
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                {% if object %}
+                    Редактирование продукта
+                {% else %}
+                    Добавление продукта
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-outline-success">
+                        {% if object %}
+                            Сохранить
+                        {% else %}
+                            Добавить
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
