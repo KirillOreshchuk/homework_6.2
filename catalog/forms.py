@@ -1,8 +1,7 @@
 from django import forms
 
-from catalog.models import Product, Version
-
-banned_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+from catalog.models import Product, Version, Blog
+from config.settings import BANNED_WORDS
 
 
 class StyleFormMixin:
@@ -20,14 +19,14 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
     def clean_name(self):
         cleaned_data = self.cleaned_data['name']
-        if cleaned_data in banned_words:
+        if cleaned_data in BANNED_WORDS:
             raise forms.ValidationError('Продукт запрещен')
 
         return cleaned_data
 
     def clean_description(self):
         cleaned_data = self.cleaned_data['description']
-        if cleaned_data in banned_words:
+        if cleaned_data in BANNED_WORDS:
             raise forms.ValidationError('Продукт запрещен')
 
         return cleaned_data

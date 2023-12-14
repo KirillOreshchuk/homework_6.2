@@ -82,8 +82,7 @@ class ProductDeleteView(DeleteView):
     Контроллер, который отвечает за удаление продукта
     """
     model = Product
-    form_class = ProductForm
-    success_url = reverse_lazy('catalog:catalog')
+    success_url = reverse_lazy('catalog:product_list')
 
 
 class BlogCreateView(CreateView):
