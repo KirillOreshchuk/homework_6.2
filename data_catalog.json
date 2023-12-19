@@ -1,0 +1,194 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Кефир",
+      "description": "Кисломолочный продукт",
+      "preview": "products/кефир.jpg",
+      "category": 4,
+      "price": 130,
+      "creation_date": "2023-12-19T17:33:53.428Z",
+      "last_change_date": "2023-12-19T17:33:53.428Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Яблоко",
+      "description": "Сладкий плод",
+      "preview": "products/яблоко.jpeg",
+      "category": 1,
+      "price": 135,
+      "creation_date": "2023-12-19T17:34:21.173Z",
+      "last_change_date": "2023-12-19T17:34:21.173Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Кукуруза",
+      "description": "Желтый початок",
+      "preview": "products/Кукуруза-фото.jpg",
+      "category": 2,
+      "price": 90,
+      "creation_date": "2023-12-19T17:34:46.629Z",
+      "last_change_date": "2023-12-19T17:34:46.629Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "Козий сыр",
+      "description": "Сделан из козьего молока",
+      "preview": "products/Козий_сыр.jpg",
+      "category": 4,
+      "price": 300,
+      "creation_date": "2023-12-19T17:35:11.030Z",
+      "last_change_date": "2023-12-19T17:35:11.030Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Банан",
+      "description": "Желтый сладкий плод",
+      "preview": "products/istockphoto-120492078-612x612.jpg",
+      "category": 1,
+      "price": 260,
+      "creation_date": "2023-12-19T17:35:37.418Z",
+      "last_change_date": "2023-12-19T17:37:22.512Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Шоколад",
+      "description": "Сделан из какао-бобов",
+      "preview": "products/шоколад.jpg",
+      "category": 3,
+      "price": 300,
+      "creation_date": "2023-12-19T17:36:06.871Z",
+      "last_change_date": "2023-12-19T17:36:06.871Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "name": "Конфеты",
+      "description": "Сладкие",
+      "preview": "products/конфеты.jpg",
+      "category": 3,
+      "price": 350,
+      "creation_date": "2023-12-19T17:36:32.754Z",
+      "last_change_date": "2023-12-19T17:36:32.754Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+      "name": "Картофель",
+      "description": "Распространенный овощ",
+      "preview": "products/картофель.jpg",
+      "category": 2,
+      "price": 170,
+      "creation_date": "2023-12-19T17:37:07.673Z",
+      "last_change_date": "2023-12-19T17:37:07.673Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Фрукты",
+      "description": "Сладкие, полезные"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Овощи",
+      "description": "Полезные"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Сладости",
+      "description": "Сладкие, вредные"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Молочные продукты",
+      "description": "Сделаны из молока"
+    }
+  },
+  {
+    "model": "catalog.blog",
+    "pk": 1,
+    "fields": {
+      "title": "Польза яблок",
+      "slug": "polza-yablok",
+      "body": "Больше всего в этих плодах сосредоточено железа.",
+      "image": "products/яблоко_m571x4p.jpeg",
+      "created_at": "2023-12-19T17:38:45.507Z",
+      "is_published": true,
+      "view_count": 5
+    }
+  },
+  {
+    "model": "catalog.blog",
+    "pk": 2,
+    "fields": {
+      "title": "Вред конфет",
+      "slug": "vred-konfet",
+      "body": "Провоцируют образование кариеса.",
+      "image": "products/конфеты_KnT33aX.jpg",
+      "created_at": "2023-12-19T17:39:36.382Z",
+      "is_published": true,
+      "view_count": 1
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 1,
+    "fields": {
+      "product_name": 1,
+      "version_number": 1,
+      "version_name": "Первая",
+      "is_active": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 2,
+    "fields": {
+      "product_name": 1,
+      "version_number": 2,
+      "version_name": "Вторая",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 3,
+    "fields": {
+      "product_name": 2,
+      "version_number": 1,
+      "version_name": "Первая",
+      "is_active": true
+    }
+  }
+]

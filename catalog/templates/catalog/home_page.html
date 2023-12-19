@@ -8,15 +8,16 @@
 {% endblock %}
 
 {% block nav %}
-<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:display_contact_info' %}">
-    Контакты
-</a>
-<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">
-    Продукты
-</a>
-<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:blog_list' %}">
-    Посты
-</a>
+{% if user.is_authenticated%}
+<a class="p-2 btn btn-outline-primary" href="{% url 'users:profile' %}">Профиль</a>
+<a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выйти</a>
+{% else %}
+<a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Войти</a>
+<a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+{% endif %}
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:display_contact_info' %}">Контакты</a>
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Продукты</a>
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:blog_list' %}">Посты</a>
 {% endblock %}
 {% block store %}
 <div class="row text-center"></div>
