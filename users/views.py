@@ -92,7 +92,7 @@ def generate_new_password(request):
     """
     new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
     send_mail(
-        subject='Регистрация на платформе',
+        subject='Генерация нового пароля',
         message=f"Ваш новый пароль {new_password}",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[request.user.email]

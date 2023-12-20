@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
@@ -36,6 +37,7 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = queryset.filter(owner=self.request.user)
         active_versions = Version.objects.filter(is_active=True).select_related('product_name')
         active_products = {version.product_name_id: version for version in active_versions}
         for product in queryset:
@@ -55,7 +57,17 @@ class ProductCreateView(CreateView):
     """
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:product_list')
+    template_name = 'catalog/product_form.html'
+
+    def get_success_url(self):
+        return reverse('catalog:product_list')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)
 
 
 class ProductUpdateView(UpdateView):

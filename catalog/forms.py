@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product, Version, Blog
+from catalog.models import Product, Version
 from config.settings import BANNED_WORDS
 
 
@@ -15,7 +15,7 @@ class StyleFormMixin:
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('owner',)
 
     def clean_name(self):
         cleaned_data = self.cleaned_data['name']
