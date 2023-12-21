@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
@@ -29,15 +29,15 @@ def display_contact_info(request):
     return render(request, 'catalog/contact_info.html')
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     """
     Контроллер, который отвечает за отображение списка всех продуктов
     """
     model = Product
+    login_url = reverse_lazy('catalog:not_login')
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(owner=self.request.user)
         active_versions = Version.objects.filter(is_active=True).select_related('product_name')
         active_products = {version.product_name_id: version for version in active_versions}
         for product in queryset:
@@ -51,7 +51,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     """
     Контроллер, который отвечает за создание продукта
     """
@@ -70,7 +70,7 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """
     Контроллер, который отвечает за изменение продукта
     """
@@ -80,8 +80,15 @@ class ProductUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
 
-class ProductDetailView(DetailView):
+        return super().form_valid(form)
+
+
+class ProductDetailView(LoginRequiredMixin, DetailView):
     """
     Контроллер, который отвечает за отображение одного продукта
     """
@@ -89,12 +96,30 @@ class ProductDetailView(DetailView):
     form_class = ProductForm
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """
     Контроллер, который отвечает за удаление продукта
     """
     model = Product
     success_url = reverse_lazy('catalog:product_list')
+
+
+class VersionCreateView(CreateView):
+    """
+    Контроллер, который отвечает за создание версии продукта
+    """
+    model = Version
+    form_class = VersionForm
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
+
+def not_login(request):
+    """
+    Контроллер, который отвечает за страницу, на которую перенаправляет пользователя, если он не авторизован
+    """
+    return render(request, 'catalog/not_login.html')
 
 
 class BlogCreateView(CreateView):
@@ -163,14 +188,3 @@ class BlogDeleteView(DeleteView):
     """
     model = Blog
     success_url = reverse_lazy('catalog:blog_list')
-
-
-class VersionCreateView(CreateView):
-    """
-    Контроллер, который отвечает за создание версии продукта
-    """
-    model = Version
-    form_class = VersionForm
-
-    def get_success_url(self):
-        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
