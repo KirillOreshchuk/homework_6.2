@@ -31,6 +31,7 @@
                                     <p class="card-text">Дата изготовления: {{ product.creation_date }}</p>
                                     <p class="card-text">Дата изменения: {{ product.last_change_date }}</p>
                                     <p class="card-text">Цена: {{ product.price }}р.</p>
+                                    <p class="card-text">Статус публикации: {{ product.is_published }}</p>
                                     <p class="card-text">Владелец: {{ object.owner|default:"Без владельца" }}</p>
                                     <a class="btn btn-link" href="{% url 'catalog:product_update' pk=product.id %}">
                                         Изменить

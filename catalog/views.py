@@ -1,10 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductFormModerator
 from catalog.models import Product, Blog, Version
 
 
@@ -34,10 +35,10 @@ class ProductListView(LoginRequiredMixin, ListView):
     Контроллер, который отвечает за отображение списка всех продуктов
     """
     model = Product
-    login_url = reverse_lazy('catalog:not_login')
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        # queryset = Product.objects.filter(owner=self.request.user)
         active_versions = Version.objects.filter(is_active=True).select_related('product_name')
         active_products = {version.product_name_id: version for version in active_versions}
         for product in queryset:
@@ -70,22 +71,28 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """
     Контроллер, который отвечает за изменение продукта
     """
+    permission_required = 'catalog.change_product'
     model = Product
     form_class = ProductForm
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise Http404("Вы не являетесь владельцем этого товара")
+        return self.object
 
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.owner = self.request.user
-        self.object.save()
-
-        return super().form_valid(form)
+    def get_form_class(self):
+        if self.request.user.groups.filter(name='Moderator').exists():
+            return ProductFormModerator
+        else:
+            return ProductForm
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
