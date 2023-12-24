@@ -64,9 +64,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return reverse('catalog:product_list')
 
     def form_valid(self, form):
-        self.object = form.save()
-        self.object.owner = self.request.user
-        self.object.save()
+        user = form.save()
+        user.owner = self.request.user
+        user.save()
 
         return super().form_valid(form)
 
@@ -87,6 +87,13 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
+    def form_valid(self, form):
+        user = form.save()
+        user.owner = self.request.user
+        user.save()
+
+        return super().form_valid(form)
 
     def get_form_class(self):
         if self.request.user.groups.filter(name='Moderator').exists():

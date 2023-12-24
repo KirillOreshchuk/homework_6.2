@@ -7,9 +7,11 @@
       "description": "Кисломолочный продукт",
       "preview": "products/кефир.jpg",
       "category": 4,
-      "price": 130,
+      "price": 150,
       "creation_date": "2023-12-19T17:33:53.428Z",
-      "last_change_date": "2023-12-19T17:33:53.428Z"
+      "last_change_date": "2023-12-24T13:59:02.887Z",
+      "owner": 24,
+      "is_published": true
     }
   },
   {
@@ -20,9 +22,11 @@
       "description": "Сладкий плод",
       "preview": "products/яблоко.jpeg",
       "category": 1,
-      "price": 135,
+      "price": 150,
       "creation_date": "2023-12-19T17:34:21.173Z",
-      "last_change_date": "2023-12-19T17:34:21.173Z"
+      "last_change_date": "2023-12-23T16:23:15.392Z",
+      "owner": 1,
+      "is_published": false
     }
   },
   {
@@ -32,10 +36,12 @@
       "name": "Кукуруза",
       "description": "Желтый початок",
       "preview": "products/Кукуруза-фото.jpg",
-      "category": 2,
-      "price": 90,
+      "category": 4,
+      "price": 150,
       "creation_date": "2023-12-19T17:34:46.629Z",
-      "last_change_date": "2023-12-19T17:34:46.629Z"
+      "last_change_date": "2023-12-24T13:58:56.694Z",
+      "owner": 24,
+      "is_published": true
     }
   },
   {
@@ -43,12 +49,14 @@
     "pk": 4,
     "fields": {
       "name": "Козий сыр",
-      "description": "Сделан из козьего молока",
+      "description": "Сделан из козьего молока.",
       "preview": "products/Козий_сыр.jpg",
       "category": 4,
-      "price": 300,
+      "price": 350,
       "creation_date": "2023-12-19T17:35:11.030Z",
-      "last_change_date": "2023-12-19T17:35:11.030Z"
+      "last_change_date": "2023-12-23T16:23:13.197Z",
+      "owner": 1,
+      "is_published": false
     }
   },
   {
@@ -59,9 +67,11 @@
       "description": "Желтый сладкий плод",
       "preview": "products/istockphoto-120492078-612x612.jpg",
       "category": 1,
-      "price": 260,
+      "price": 250,
       "creation_date": "2023-12-19T17:35:37.418Z",
-      "last_change_date": "2023-12-19T17:37:22.512Z"
+      "last_change_date": "2023-12-24T11:15:54.606Z",
+      "owner": 22,
+      "is_published": true
     }
   },
   {
@@ -72,9 +82,11 @@
       "description": "Сделан из какао-бобов",
       "preview": "products/шоколад.jpg",
       "category": 3,
-      "price": 300,
+      "price": 310,
       "creation_date": "2023-12-19T17:36:06.871Z",
-      "last_change_date": "2023-12-19T17:36:06.871Z"
+      "last_change_date": "2023-12-24T13:58:51.895Z",
+      "owner": 24,
+      "is_published": false
     }
   },
   {
@@ -85,9 +97,11 @@
       "description": "Сладкие",
       "preview": "products/конфеты.jpg",
       "category": 3,
-      "price": 350,
+      "price": 360,
       "creation_date": "2023-12-19T17:36:32.754Z",
-      "last_change_date": "2023-12-19T17:36:32.754Z"
+      "last_change_date": "2023-12-23T16:22:59.742Z",
+      "owner": 1,
+      "is_published": false
     }
   },
   {
@@ -98,9 +112,56 @@
       "description": "Распространенный овощ",
       "preview": "products/картофель.jpg",
       "category": 2,
-      "price": 170,
+      "price": 175,
       "creation_date": "2023-12-19T17:37:07.673Z",
-      "last_change_date": "2023-12-19T17:37:07.673Z"
+      "last_change_date": "2023-12-24T13:59:34.292Z",
+      "owner": 24,
+      "is_published": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 13,
+    "fields": {
+      "name": "Виноград",
+      "description": "Больше ягода!",
+      "preview": "products/Виноград.jpg",
+      "category": 1,
+      "price": 123,
+      "creation_date": "2023-12-20T14:21:45.590Z",
+      "last_change_date": "2023-12-24T13:58:42.198Z",
+      "owner": 24,
+      "is_published": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 14,
+    "fields": {
+      "name": "Кабачок",
+      "description": "Род тыквы с овальным продолговатым плодом.",
+      "preview": "products/кабачок.jpeg",
+      "category": 2,
+      "price": 210,
+      "creation_date": "2023-12-20T15:28:23.714Z",
+      "last_change_date": "2023-12-23T16:22:47.474Z",
+      "owner": 1,
+      "is_published": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 16,
+    "fields": {
+      "name": "APPLE",
+      "description": "APPLE",
+      "preview": "",
+      "category": 1,
+      "price": 120,
+      "creation_date": "2023-12-24T12:57:34.966Z",
+      "last_change_date": "2023-12-24T13:58:36.837Z",
+      "owner": 24,
+      "is_published": false
     }
   },
   {
@@ -143,9 +204,9 @@
       "slug": "polza-yablok",
       "body": "Больше всего в этих плодах сосредоточено железа.",
       "image": "products/яблоко_m571x4p.jpeg",
-      "created_at": "2023-12-19T17:38:45.507Z",
+      "created_at": "2023-12-23T16:06:38.643Z",
       "is_published": true,
-      "view_count": 5
+      "view_count": 6
     }
   },
   {
