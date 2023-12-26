@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+
+{% block name %}
+<div class="header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Категории</h1>
+</div>
+{% endblock %}
+
+{% block nav %}
+<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:display_home_page' %}">Главная страница</a>
+{% endblock %}
+
+{% block store %}
+<div class="row text-start">
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for object in object_list %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <p class="card-text, center">{{ object.name }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

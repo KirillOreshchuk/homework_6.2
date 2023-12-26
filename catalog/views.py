@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import Http404
 from django.shortcuts import render
@@ -7,6 +8,7 @@ from pytils.translit import slugify
 
 from catalog.forms import ProductForm, VersionForm, ProductFormModerator
 from catalog.models import Product, Blog, Version
+from catalog.services import get_categories_cache
 
 
 def display_home_page(request):
@@ -28,6 +30,20 @@ def display_contact_info(request):
         print(f'Имя: {name}, телефон: {phone}, сообщение: {message}')
 
     return render(request, 'catalog/contact_info.html')
+
+
+@login_required
+def categories(request):
+    """
+    Контроллер, который отвечает за отображение категорий
+    """
+
+    context = {
+        'object_list': get_categories_cache(),
+        'title': 'Все категории'
+    }
+
+    return render(request, 'catalog/categories.html', context)
 
 
 class ProductListView(LoginRequiredMixin, ListView):
